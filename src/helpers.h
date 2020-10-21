@@ -1,9 +1,11 @@
 #ifndef HELPERS_H
 #define HELPERS_H
 
+
 #include <math.h>
 #include <string>
 #include <vector>
+#include "fsm.h"
 
 // for convenience
 using std::string;
@@ -152,6 +154,17 @@ vector<double> getXY(double s, double d, const vector<double> &maps_s,
   double y = seg_y + d*sin(perp_heading);
 
   return {x,y};
+}
+
+enum States { Normal, Follow, ChangeLeft, ChangeRight };
+enum Triggers {CarAhead, Clear};
+FSM::Fsm<States, States::Normal, Triggers> fsm;
+const char * StateNames[] = { "Normal", "Follow Vehicle In Front", "Change To Left Lane", "Change To Right Lane" };
+
+void dbg_fsm(States from_state, States to_state, Triggers trigger) {
+    if (from_state != to_state) {
+        std::cout << "State Changed To: " << StateNames[to_state] << "\n";
+    }
 }
 
 #endif  // HELPERS_H
