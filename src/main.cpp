@@ -20,7 +20,7 @@ using std::vector;
 
 
 const double MAX_VEL = 49.5;
-const double MAX_ACC = .448;
+const double MAX_ACC = .448/2;
 const int LEFT_LANE = 0;
 const int MIDDLE_LANE = 1;
 const int RIGHT_LANE = 2;
@@ -186,11 +186,6 @@ int main() {
                   car_right |= (car_s - PROJECTION_IN_METERS < check_car_s) && (car_s + PROJECTION_IN_METERS > check_car_s);
               }
           }
-              if ( ref_vel > MAX_VEL ) {
-                    ref_vel = MAX_VEL;
-                } else if ( ref_vel < MAX_VEL ) {
-                    ref_vel += MAX_ACC;
-              }
 
             // 2. BEHAVIOR: Trigger State Changes Depending If Road Clear of Vehicle Ahead
             if (car_ahead) {
@@ -245,9 +240,9 @@ int main() {
             }
 
             // In Frenet add evenly 30m spaced points ahead of the starting reference
-            vector<double> next_wp0 = getXY(car_s+PROJECTION_IN_METERS, (2+4*lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
-            vector<double> next_wp1 = getXY(car_s+(PROJECTION_IN_METERS*2), (2+4*lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
-            vector<double> next_wp2 = getXY(car_s+(PROJECTION_IN_METERS*3), (2+4*lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
+            vector<double> next_wp0 = getXY(car_s+30, (2+4*lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
+            vector<double> next_wp1 = getXY(car_s+60, (2+4*lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
+            vector<double> next_wp2 = getXY(car_s+90, (2+4*lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
 
             ptsx.push_back(next_wp0[0]);
             ptsx.push_back(next_wp1[0]);
